@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {authClient} from "@/lib/auth-client" ;
-import { cn } from "@/lib/utils";
 
 const registerSchema = z.object({
     email: z.email("Please enter a valid email address"),
