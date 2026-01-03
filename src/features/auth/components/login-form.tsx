@@ -24,7 +24,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {authClient} from "@/lib/auth-client" ;
+import { authClient } from "@/lib/auth-client";
 
 const loginSchema = z.object({
     email: z.email("Please enter a valid email address"),
@@ -49,7 +49,7 @@ export function LoginForm() {
             email: values.email,
             password: values.password,
             callbackURL: "/",
-        } , {
+        }, {
             onSuccess: () => {
                 router.push("/");
             },
@@ -78,9 +78,11 @@ export function LoginForm() {
                             <div className="grid gap-6">
                                 <div className="flex flex-col gap-4">
                                     <Button variant="outline" className="w-full" type="button" disabled={isPending}>
+                                        <Image src="/logos/github.svg" width={20} height={20} alt="GitHub" />
                                         Continue with GitHub
                                     </Button>
                                     <Button variant="outline" className="w-full" type="button" disabled={isPending}>
+                                        <Image src="/logos/google.svg" width={20} height={20} alt="Google" />
                                         Continue with Google
                                     </Button>
                                 </div>
