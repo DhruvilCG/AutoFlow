@@ -13,6 +13,7 @@ Sentry.init({
       recordInputs: true,
       recordOutputs: true,
     }),
+    Sentry.consoleLoggingIntegration({ levels: ["log", "warn", "error"] }),
   ],
 
 
