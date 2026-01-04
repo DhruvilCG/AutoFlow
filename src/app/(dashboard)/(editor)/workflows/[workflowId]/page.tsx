@@ -1,3 +1,5 @@
+import { requireAuth } from "@/lib/auth-utils";
+
 interface PageProps {
     params: Promise<{
         workflowId: string;
@@ -7,6 +9,7 @@ interface PageProps {
 //http://localhost:3000/workflows/123
 
 const Page = async ({ params }: PageProps) => {
+    await requireAuth();
     const { workflowId } = await params;
     return <p>Workflow Id: {workflowId}</p>
 }
