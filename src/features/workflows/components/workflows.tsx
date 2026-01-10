@@ -1,6 +1,6 @@
 "use client";
 
-import { EntityHeader } from "@/components/entity-components";
+import { EntityContainer, EntityHeader } from "@/components/entity-components";
 import { useSuspenseWorkflows } from "../hooks/use-workflows";
 
 export const WorkflowsList = () => {
@@ -25,5 +25,17 @@ export const WorkflowsHeader = ({disabled}: {disabled?: boolean}) => {
                 isCreating={false}
             />
         </>
+    );
+};
+
+export const WorkflowsContainer = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <EntityContainer
+            header= {<WorkflowsHeader />} 
+            search={<></>}
+            pagination={<></>} 
+        >
+            {children}
+        </EntityContainer>
     );
 };
