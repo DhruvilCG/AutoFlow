@@ -3,10 +3,22 @@
  */
 
 import { useTRPC } from "@/trpc/client";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export const useSuspenseWorkflows = () => {
     const trpc = useTRPC();
 
     return useSuspenseQuery(trpc.workflows.getMany.queryOptions());
+};
+
+/**
+ * Hook to create a new workflows.
+ */
+export const useCreateWorkflow = () => {
+    const router = useRouter();
+    const queryClient = useQueryClient();
+    const trpc = useTRPC();
+
+    return useMutation();
 };

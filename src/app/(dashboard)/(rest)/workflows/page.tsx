@@ -12,13 +12,13 @@ const Page = async () => {
     
     return (
         <WorkflowsContainer>
-        <HydrateClient>
-            <ErrorBoundary fallback={<p>Error!</p>}>
-                <Suspense fallback={<p>Loading...</p>}>  
-                    <WorkflowsList />
-                </Suspense>
-            </ErrorBoundary>
-        </HydrateClient>
+            <HydrateClient>
+                <ErrorBoundary fallback={<p>Error!</p>}>
+                    <Suspense fallback={<p>Loading...</p>}>  
+                        <WorkflowsList />
+                    </Suspense>
+                </ErrorBoundary>
+            </HydrateClient>
         </WorkflowsContainer>
     )
 }
