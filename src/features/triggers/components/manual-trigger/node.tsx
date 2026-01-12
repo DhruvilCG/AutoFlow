@@ -10,6 +10,8 @@ export const ManualTriggerNode = memo((props: NodeProps) => {
 
   const handleOpenSettings = () => setDialogOpen(true);
 
+  const nodeStatus = "loading";
+
   return (
     <>
       <ManualTriggerDialog open={dialogOpen} onOpenChange={setDialogOpen} />
@@ -17,7 +19,7 @@ export const ManualTriggerNode = memo((props: NodeProps) => {
         {...props}
         icon={MousePointerIcon}
         name="When clicking 'Execute workflow'"
-        // status={nodeStatus}
+        status={nodeStatus}
         onSettings={handleOpenSettings}
         onDoubleClick={handleOpenSettings}
       />
