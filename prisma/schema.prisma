@@ -75,7 +75,7 @@ model Verification {
   @@map("verification")
 }
 
-model Workflows {
+model Workflows  {
   id   String @id @default(cuid())
   name String
   createdAt DateTime @default(now())
