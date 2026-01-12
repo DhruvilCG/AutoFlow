@@ -125,9 +125,9 @@ export const WorkflowsError = () => {
 export const WorkflowsEmpty = () => {
   const createWorkflow = useCreateWorkflow();
   const { handleError, modal } = useUpgradeModal();
+  const router = useRouter();
 
   const handleCreate = () => {
-    const router = useRouter();
     createWorkflow.mutate(undefined, {
       onError: (error) => {
         handleError(error);
