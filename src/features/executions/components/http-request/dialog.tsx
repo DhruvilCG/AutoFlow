@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -29,6 +30,7 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
   endpoint: z.url({ message: "Please enter a valid URL" }),
@@ -36,6 +38,8 @@ const formSchema = z.object({
   body: z.string().optional(),
   // .refine(), TODO JSON
 });
+
+export type FormType = z.infer<typeof formSchema>;
 
 interface Props {
   open: boolean;
@@ -46,17 +50,15 @@ interface Props {
   defaultBody?: string;
 }
 
-export const HttpRequestDialog = ({ 
-  open, 
+export const HttpRequestDialog = ({
+  open,
   onOpenChange,
   onSubmit,
-  defaultEndpoint= "",
-  defaultMethod= "GET",
-  defaultBody= "", 
+  defaultEndpoint = "",
+  defaultMethod = "GET",
+  defaultBody = "",
 }: Props) => {
-
   const form = useForm<z.infer<typeof formSchema>>({
-
     resolver: zodResolver(formSchema),
 
     defaultValues: {
@@ -65,6 +67,16 @@ export const HttpRequestDialog = ({
       body: defaultBody,
     },
   });
+
+  useEffect(() => {
+    if (open) {
+      form.reset({
+        endpoint: defaultEndpoint,
+        method: defaultMethod,
+        body: defaultBody,
+      });
+    }
+  } , [open, defaultEndpoint, defaultMethod, defaultBody, form]);
 
   const watchMethod = form.watch("method");
   const showBodyField = ["POST", "PUT", "PATCH"].includes(watchMethod);
@@ -85,11 +97,11 @@ export const HttpRequestDialog = ({
         </DialogHeader>
 
         <Form {...form}>
-          <form 
+          <form
             onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-8 mt-4"
           >
-            <FormField 
+            <FormField
               control={form.control}
               name="method"
               render={({ field }) => (
@@ -113,14 +125,71 @@ export const HttpRequestDialog = ({
                       <SelectItem value="DELETE">DELETE</SelectItem>
                     </SelectContent>
                   </Select>
+
+                  <FormDescription>
+                    The HTTP method to use for this request.
+                  </FormDescription>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
-                    </SelectContent>
-                  </Select>
+
+            <FormField
+              control={form.control}
+              name="endpoint"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Endpoint URL</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="https://api.example.com/users/{{httpResponse.data.id}}"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormDescription>
+                    Static URL or use {"{{variable}}"} for simple values or{" "}
+                    {"{{json variable}}"} to stringify objects.
+                  </FormDescription>
+
+                  <FormMessage />
                 </FormItem>
               )}
+            />
+
+            {showBodyField && (
+              <FormField
+                control={form.control}
+                name="body"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Reuest body</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder={
+                          '{\n "userId": "{{httpResponse.data.id}}",\n "name": "{{httpResponse.data.name}}"\n "items": "{{httpResponse.data.items}}"\n}'
+                        }
+                        className="min-h-[120px] font-mono text-sm"
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormDescription>
+                      JSON with template variables. Use {"{{variable}}"} for
+                      simple values or {"{{json variable}}"} to stringify
+                      objects.
+                    </FormDescription>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
+            <DialogFooter className="mt-4">
+              <Button type="submit">Save</Button>
+            </DialogFooter>
           </form>
         </Form>
       </DialogContent>
