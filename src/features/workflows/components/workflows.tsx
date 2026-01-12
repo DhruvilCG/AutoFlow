@@ -4,6 +4,7 @@ import {
   EmptyView,
   EntityContainer,
   EntityHeader,
+  EntityList,
   EntityPagination,
   EntitySearch,
   ErrorView,
@@ -37,14 +38,13 @@ export const WorkflowsSearch = () => {
 export const WorkflowsList = () => {
   const workflows = useSuspenseWorkflows();
 
-  if (workflows.data.items.length === 0) {
-    return <WorkflowsEmpty />;
-  }
-
   return (
-    <div className="flex-1 flex justify-center items-center">
-      <p>{JSON.stringify(workflows.data, null, 2)}</p>
-    </div>
+    <EntityList
+      items={workflows.data.items}
+      getKey={(workflow) => workflow.id}
+      renderItem={(workflow) => <p>{workflow.name}</p>}
+      emptyView={<WorkflowsEmpty />}
+    />
   );
 };
 
@@ -122,9 +122,14 @@ export const WorkflowsEmpty = () => {
   const { handleError, modal } = useUpgradeModal();
 
   const handleCreate = () => {
+    const router = useRouter();
     createWorkflow.mutate(undefined, {
       onError: (error) => {
         handleError(error);
+      },
+
+      onSuccess: (data) => {
+        router.push(`/workflows/${data.id}`);
       },
     });
   };
