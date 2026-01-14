@@ -105,6 +105,29 @@ export const GoogleFormTriggerDialog = ({ open, onOpenChange }: Props) => {
             </p>
           </div>
           
+          <div className="rounded-lg bg-muted p-4 space-y-4">
+            <h4 className="font-medium text-sm">Available Variables</h4>
+            <ul className="text-sm text-muted-foreground space-y-1">
+              <li>
+                <code className="bg-background px-1 py-0.5 rounded">
+                  {"{{googleForm.respondentEmail}}"}
+                </code>
+                - Respondent's email
+              </li>
+              <li>
+                <code className="bg-background px-1 py-0.5 rounded">
+                  {"{{googleForm.responses['Question Name']}}"}
+                </code>
+                - Specific answer
+              </li>
+              <li>
+                <code className="bg-background px-1 py-0.5 rounded">
+                  {"{{json googleForm.responses}}"}
+                </code>
+                - All responses as JSON
+              </li>
+            </ul>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
